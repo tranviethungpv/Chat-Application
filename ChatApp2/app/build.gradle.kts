@@ -2,6 +2,11 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.googleDevtools)
+    alias(libs.plugins.daggerHilt)
+    id("kotlin-android")
+    id("kotlin-parcelize")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -22,8 +27,7 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
     }
@@ -33,6 +37,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+    buildFeatures {
+        viewBinding = true
+        aidl = true
     }
 }
 
@@ -45,4 +53,23 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    // Fragment-ktx
+    implementation(libs.androidx.fragment.ktx)
+
+    // Dagger Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+
+    // Glide
+    implementation(libs.glide)
+
+    // Navigation
+    implementation(libs.androidx.navigation.fragment.ktx)
+
+    // Navigation UI
+    implementation(libs.androidx.navigation.ui.ktx)
+
+    // Circle Image View
+    implementation(libs.circleimageview)
 }
