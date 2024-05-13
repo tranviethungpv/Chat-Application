@@ -12,6 +12,7 @@ interface AppRepository {
     fun deleteConversation(conversation: Conversation): Int
     fun getAllConversations(): List<Conversation>
     fun getConversation(userId1: Int, userId2: Int): Conversation?
+    fun hideMessagesInConversation(conversation: Conversation, userId: Int): Int
 
     fun insertMessage(message: Message): Long
     fun updateMessage(message: Message): Int
@@ -25,7 +26,8 @@ interface AppRepository {
     fun getUserById(id: Int): User
 
     fun getMessagesWithUsersAndConversation(
-        conversationId: Int
+        conversationId: Int,
+        userId: Int,
     ): List<MessageWithUsersAndConversation>
     fun getLatestMessagesWithReceiverAndConversationInfo(userId1: Int): List<MessageWithReceiverAndConversationInfo>
 }

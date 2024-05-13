@@ -43,6 +43,8 @@ android {
         aidl = true
     }
     buildToolsVersion = "34.0.0"
+
+
 }
 
 dependencies {
@@ -51,6 +53,8 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.constraintlayout)
+
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -85,4 +89,10 @@ dependencies {
 
     // Gson
     implementation(libs.gson)
+
+    // Mockito
+    testImplementation (libs.mockito.core)
+    testImplementation (libs.mockito.kotlin)
+    testImplementation(libs.androidx.core.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
 }

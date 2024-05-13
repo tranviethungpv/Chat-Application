@@ -41,6 +41,10 @@ class ChatService : Service() {
             return appRepository.getConversation(userId1, userId2)
         }
 
+        override fun hideMessagesInConversation(conversation: Conversation?, userId: Int): Int {
+            return appRepository.hideMessagesInConversation(conversation!!, userId)
+        }
+
         override fun insertMessage(message: Message): Long {
             return appRepository.insertMessage(message)
         }
@@ -79,9 +83,9 @@ class ChatService : Service() {
         }
 
         override fun getMessagesWithUsersAndConversation(
-            conversationId: Int
+            conversationId: Int, userId: Int
         ): List<MessageWithUsersAndConversation> {
-            return appRepository.getMessagesWithUsersAndConversation(conversationId)
+            return appRepository.getMessagesWithUsersAndConversation(conversationId, userId)
         }
 
         override fun getMessagesWithReceiverAndConversationInfo(
