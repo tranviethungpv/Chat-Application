@@ -102,7 +102,6 @@ class MessageViewModelTest {
         verify(appRepository).getMessagesWithUsersAndConversation(conversationId)
         verify(listMessageWithUserObserver).onChanged(messageWithUsersAndConversation)
     }
-
 }
 
 

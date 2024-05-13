@@ -32,14 +32,6 @@ class ConversationViewModel @Inject constructor(
         return result != -1L
     }
 
-    suspend fun updateConversation(conversation: Conversation): Boolean {
-        var result: Int
-        withContext(Dispatchers.IO) {
-            result = appRepository.updateConversation(conversation)
-        }
-        return result > 0
-    }
-
     suspend fun deleteConversation(conversation: Conversation): Boolean {
         var result: Int
         withContext(Dispatchers.IO) {

@@ -29,22 +29,6 @@ class UserViewModel @Inject constructor(
         return result != -1L
     }
 
-    suspend fun updateUser(user: User): Boolean {
-        var result: Int
-        withContext(Dispatchers.IO) {
-            result = appRepository.updateUser(user)
-        }
-        return result > 0
-    }
-
-    suspend fun deleteUser(user: User): Boolean {
-        var result: Int
-        withContext(Dispatchers.IO) {
-            result = appRepository.deleteUser(user)
-        }
-        return result > 0
-    }
-
     fun getUsers() {
         GlobalScope.launch(Dispatchers.IO) {
             _users.postValue(appRepository.getAllUsers())

@@ -56,17 +56,8 @@ dependencies {
 
 
     testImplementation(libs.junit)
-    testImplementation("junit:junit:4.12")
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
-        // Optional -- Mockito framework
-    testImplementation ("org.mockito:mockito-core:3.12.4")
-        // Optional -- mockito-kotlin
-    testImplementation ("org.mockito.kotlin:mockito-kotlin:3.2.0")
-        // Optional -- Mockk framework
-    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
-    testImplementation("androidx.arch.core:core-testing:2.1.0")
-
 
     // Fragment-ktx
     implementation(libs.androidx.fragment.ktx)
@@ -98,4 +89,10 @@ dependencies {
 
     // Gson
     implementation(libs.gson)
+
+    // Mockito
+    testImplementation (libs.mockito.core)
+    testImplementation (libs.mockito.kotlin)
+    testImplementation(libs.androidx.core.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
 }

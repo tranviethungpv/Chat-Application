@@ -8,6 +8,7 @@ import com.example.chatapp1.Message
 import com.example.chatapp1.MessageWithUsersAndConversation
 import com.example.chatapp1.data.repository.AppRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -29,7 +30,7 @@ class MessageViewModel @Inject constructor(
         return result != -1L
     }
 
-
+    @OptIn(DelicateCoroutinesApi::class)
     fun getMessagesWithUsersAndConversation(
         conversationId: Int
     ) {
