@@ -74,9 +74,8 @@ class MessageFragment : Fragment() {
                         )
                     )
                     if (isSuccess) {
-                        messageViewModel.getMessagesWithUsersAndConversation(
-                            args.conversation.id
-                        ).observe(viewLifecycleOwner) { messages ->
+                        messageViewModel.getMessagesWithUsersAndConversation(args.conversation.id)
+                        messageViewModel.messageWithUsersAndConversation.observe(viewLifecycleOwner) { messages ->
                             messageAdapter.submitList(messages)
                             binding.rcvListMessages.scrollToPosition(messages.size - 1)
                         }
@@ -91,9 +90,8 @@ class MessageFragment : Fragment() {
         fillUserInformation()
         setupRecyclerView()
 
-        messageViewModel.getMessagesWithUsersAndConversation(
-            args.conversation.id
-        ).observe(viewLifecycleOwner) { messages ->
+        messageViewModel.getMessagesWithUsersAndConversation(args.conversation.id)
+        messageViewModel.messageWithUsersAndConversation.observe(viewLifecycleOwner) { messages ->
             messageAdapter.submitList(messages)
             binding.rcvListMessages.scrollToPosition(messages.size - 1)
         }
@@ -101,9 +99,8 @@ class MessageFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        messageViewModel.getMessagesWithUsersAndConversation(
-            args.conversation.id
-        ).observe(viewLifecycleOwner) { messages ->
+        messageViewModel.getMessagesWithUsersAndConversation(args.conversation.id)
+        messageViewModel.messageWithUsersAndConversation.observe(viewLifecycleOwner) { messages ->
             messageAdapter.submitList(messages)
             binding.rcvListMessages.scrollToPosition(messages.size - 1)
         }
