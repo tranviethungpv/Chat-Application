@@ -21,4 +21,7 @@ interface MessageDao {
 
     @Query("SELECT * FROM messages")
     fun getAll(): List<Message>
+
+    @Query("SELECT * FROM messages WHERE conversationId = :conversationId")
+    fun getMessagesByConversationId(conversationId: Int): List<Message>
 }

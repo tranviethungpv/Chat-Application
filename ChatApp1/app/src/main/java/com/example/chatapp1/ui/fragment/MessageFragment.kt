@@ -1,6 +1,7 @@
 package com.example.chatapp1.ui.fragment
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +17,6 @@ import com.example.chatapp1.Message
 import com.example.chatapp1.R
 import com.example.chatapp1.databinding.FragmentMessageBinding
 import com.example.chatapp1.ui.adapter.MessageAdapter
-import com.example.chatapp1.ui.viewmodel.ConversationViewModel
 import com.example.chatapp1.ui.viewmodel.MessageViewModel
 import com.example.chatapp1.ui.viewmodel.UserViewModel
 import com.example.chatapp1.utils.SessionManager
@@ -29,7 +29,6 @@ import javax.inject.Inject
 class MessageFragment : Fragment() {
     private lateinit var binding: FragmentMessageBinding
     private val messageViewModel: MessageViewModel by viewModels()
-    private val conversationViewModel: ConversationViewModel by viewModels()
     private val userViewModel: UserViewModel by viewModels()
     private lateinit var messageAdapter: MessageAdapter
 
@@ -52,12 +51,25 @@ class MessageFragment : Fragment() {
         }
 
         binding.ibDelete.setOnClickListener {
-            lifecycleScope.launch {
-                val isSuccess = conversationViewModel.deleteConversation(args.conversation)
-                if (isSuccess) {
-                    findNavController().navigateUp()
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle("Delete")
+            builder.setMessage("Are you sure to delete this conversation?")
+            builder.setPositiveButton("OK") { dialog, _ ->
+                lifecycleScope.launch {
+                    val isSuccess = messageViewModel.hideMessagesInConversation(
+                        args.conversation, sessionManager.getUserInfo()?.id ?: 0
+                    )
+                    if (isSuccess) {
+                        findNavController().navigateUp()
+                    }
                 }
+                dialog.dismiss()
             }
+            builder.setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            val dialog = builder.create()
+            dialog.show()
         }
 
         binding.ivSend.setOnClickListener {
@@ -74,7 +86,9 @@ class MessageFragment : Fragment() {
                         )
                     )
                     if (isSuccess) {
-                        messageViewModel.getMessagesWithUsersAndConversation(args.conversation.id)
+                        messageViewModel.getMessagesWithUsersAndConversation(
+                            args.conversation.id, sessionManager.getUserInfo()?.id ?: 0
+                        )
                         messageViewModel.messageWithUsersAndConversation.observe(viewLifecycleOwner) { messages ->
                             messageAdapter.submitList(messages)
                             binding.rcvListMessages.scrollToPosition(messages.size - 1)
@@ -90,7 +104,9 @@ class MessageFragment : Fragment() {
         fillUserInformation()
         setupRecyclerView()
 
-        messageViewModel.getMessagesWithUsersAndConversation(args.conversation.id)
+        messageViewModel.getMessagesWithUsersAndConversation(
+            args.conversation.id, sessionManager.getUserInfo()?.id ?: 0
+        )
         messageViewModel.messageWithUsersAndConversation.observe(viewLifecycleOwner) { messages ->
             messageAdapter.submitList(messages)
             binding.rcvListMessages.scrollToPosition(messages.size - 1)
@@ -99,7 +115,9 @@ class MessageFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        messageViewModel.getMessagesWithUsersAndConversation(args.conversation.id)
+        messageViewModel.getMessagesWithUsersAndConversation(
+            args.conversation.id, sessionManager.getUserInfo()?.id ?: 0
+        )
         messageViewModel.messageWithUsersAndConversation.observe(viewLifecycleOwner) { messages ->
             messageAdapter.submitList(messages)
             binding.rcvListMessages.scrollToPosition(messages.size - 1)

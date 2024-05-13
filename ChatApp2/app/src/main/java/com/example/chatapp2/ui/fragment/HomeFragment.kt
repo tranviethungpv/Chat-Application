@@ -18,6 +18,7 @@ import com.example.chatapp2.ui.viewmodel.UserViewModel
 import com.example.chatapp2.databinding.FragmentHomeBinding
 import com.example.chatapp2.ui.adapter.ConversationAdapter
 import com.example.chatapp2.ui.adapter.UserHomeFragmentAdapter
+import com.example.chatapp2.ui.viewmodel.MessageViewModel
 import com.example.chatapp2.utils.SessionManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -30,6 +31,8 @@ class HomeFragment : Fragment() {
     private lateinit var conversationAdapter: ConversationAdapter
     private val userViewModel: UserViewModel by viewModels()
     private val conversationViewModel: ConversationViewModel by viewModels()
+    private val messageViewModel: MessageViewModel by viewModels()
+
 
     @Inject
     lateinit var sessionManager: SessionManager
@@ -157,8 +160,9 @@ class HomeFragment : Fragment() {
                 builder.setMessage("Are you sure to delete this conversation?")
                 builder.setPositiveButton("OK") { dialog, _ ->
                     lifecycleScope.launch {
-                        val isSuccess = conversationViewModel.deleteConversation(
-                            conversationWithUserAndLatestMessage.conversation
+                        val isSuccess = messageViewModel.hideMessagesInConversation(
+                            conversationWithUserAndLatestMessage.conversation,
+                            sessionManager.getUserInfo()?.id ?: 0
                         )
                         if (isSuccess) {
                             sessionManager.getUserInfo()?.let {
