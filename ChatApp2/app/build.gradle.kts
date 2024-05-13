@@ -11,7 +11,7 @@ plugins {
 
 android {
     namespace = "com.example.chatapp2"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.chatapp2"
@@ -57,9 +57,18 @@ dependencies {
     // Fragment-ktx
     implementation(libs.androidx.fragment.ktx)
 
+    // Lifecycle LiveData ktx
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+
     // Dagger Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
+
+    // Room database
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
 
     // Glide
     implementation(libs.glide)
@@ -72,4 +81,11 @@ dependencies {
 
     // Circle Image View
     implementation(libs.circleimageview)
+
+    // Gson
+    implementation(libs.gson)
+
+    // RX
+    implementation(libs.rxjava)
+    implementation(libs.rxandroid)
 }

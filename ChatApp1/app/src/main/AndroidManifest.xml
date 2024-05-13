@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".di.ChatApp1"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -12,8 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChatApp1"
         tools:targetApi="31">
+        <service
+            android:name=".service.ChatService"
+            android:enabled="true"
+            android:exported="true"></service>
+
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

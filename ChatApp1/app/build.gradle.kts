@@ -11,7 +11,7 @@ plugins {
 
 android {
     namespace = "com.example.chatapp1"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.chatapp1"
@@ -42,6 +42,7 @@ android {
         viewBinding = true
         aidl = true
     }
+    buildToolsVersion = "34.0.0"
 }
 
 dependencies {
@@ -56,6 +57,9 @@ dependencies {
 
     // Fragment-ktx
     implementation(libs.androidx.fragment.ktx)
+
+    // Lifecycle LiveData ktx
+    implementation(libs.androidx.lifecycle.livedata.ktx)
 
     // Dagger Hilt
     implementation(libs.hilt.android)
@@ -78,4 +82,7 @@ dependencies {
 
     // Circle Image View
     implementation(libs.circleimageview)
+
+    // Gson
+    implementation(libs.gson)
 }

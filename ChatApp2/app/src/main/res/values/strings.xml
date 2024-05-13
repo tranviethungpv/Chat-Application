@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">ChatApp2</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome">Welcome to ChatApp!</string>
+    <string name="please_choose_an_user_below_to_start_chatting">Please choose an user below to start chatting</string>
+    <string name="username">Username</string>
+    <string name="tv_hi">Hi, </string>
+    <string name="tv_username">username</string>
+    <string name="tv_welcome">Welcome to ChatApp!</string>
+    <string name="tv_conversations">Conversations</string>
+    <string name="default_time">00:00 AM</string>
+    <string name="default_message">Hello, welcome to chat app!!!</string>
+    <string name="Aa">Aa</string>
+    <string name="message_empty_error">Message can not be empty</string>
+    <string name="tv_new_messages">New messages</string>
+    <string name="tv_friends">Friends</string>
 </resources>
