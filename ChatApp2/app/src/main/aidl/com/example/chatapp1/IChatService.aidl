@@ -13,6 +13,7 @@ interface IChatService {
     int deleteConversation(inout Conversation conversation);
     List<Conversation> getAllConversations();
     Conversation getConversation(int userId1, int userId2);
+    int hideMessagesInConversation(inout Conversation conversation, int userId);
 
     long insertMessage(inout Message message);
     int updateMessage(inout Message message);
@@ -25,6 +26,6 @@ interface IChatService {
     List<User> getAllUsers();
     User getUserById(int id);
 
-    List<MessageWithUsersAndConversation> getMessagesWithUsersAndConversation(int conversationId);
+    List<MessageWithUsersAndConversation> getMessagesWithUsersAndConversation(int conversationId, int userId);
     List<MessageWithReceiverAndConversationInfo> getMessagesWithReceiverAndConversationInfo(int userId);
 }

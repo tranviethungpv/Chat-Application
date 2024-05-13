@@ -1,9 +1,8 @@
 package com.example.chatapp1.ui.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
+import com.example.chatapp1.Conversation
 import com.example.chatapp1.Message
 import com.example.chatapp1.MessageWithUsersAndConversation
 import com.example.chatapp1.data.repository.AppRepository
@@ -19,7 +18,8 @@ import javax.inject.Inject
 class MessageViewModel @Inject constructor(
     private val appRepository: AppRepository
 ) : ViewModel() {
-    private var _messageWithUsersAndConversation = MutableLiveData<List<MessageWithUsersAndConversation>>()
+    private var _messageWithUsersAndConversation =
+        MutableLiveData<List<MessageWithUsersAndConversation>>()
     val messageWithUsersAndConversation get() = _messageWithUsersAndConversation
 
     suspend fun insertMessage(message: Message): Boolean {
@@ -30,12 +30,24 @@ class MessageViewModel @Inject constructor(
         return result != -1L
     }
 
+    suspend fun hideMessagesInConversation(conversation: Conversation, userId: Int): Boolean {
+        var result: Int
+        withContext(Dispatchers.IO) {
+            result = appRepository.hideMessagesInConversation(conversation, userId)
+        }
+        return result > 0
+    }
+
     @OptIn(DelicateCoroutinesApi::class)
     fun getMessagesWithUsersAndConversation(
-        conversationId: Int
+        conversationId: Int, userId: Int
     ) {
         GlobalScope.launch(Dispatchers.IO) {
-            _messageWithUsersAndConversation.postValue(appRepository.getMessagesWithUsersAndConversation(conversationId))
+            _messageWithUsersAndConversation.postValue(
+                appRepository.getMessagesWithUsersAndConversation(
+                    conversationId, userId
+                )
+            )
         }
     }
 }

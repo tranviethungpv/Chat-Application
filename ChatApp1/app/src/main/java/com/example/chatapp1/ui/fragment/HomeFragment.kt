@@ -17,6 +17,7 @@ import com.example.chatapp1.databinding.FragmentHomeBinding
 import com.example.chatapp1.ui.adapter.ConversationAdapter
 import com.example.chatapp1.ui.adapter.UserHomeFragmentAdapter
 import com.example.chatapp1.ui.viewmodel.ConversationViewModel
+import com.example.chatapp1.ui.viewmodel.MessageViewModel
 import com.example.chatapp1.ui.viewmodel.UserViewModel
 import com.example.chatapp1.utils.SessionManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,6 +31,7 @@ class HomeFragment : Fragment() {
     private lateinit var conversationAdapter: ConversationAdapter
     private val userViewModel: UserViewModel by viewModels()
     private val conversationViewModel: ConversationViewModel by viewModels()
+    private val messageViewModel: MessageViewModel by viewModels()
 
     @Inject
     lateinit var sessionManager: SessionManager
@@ -120,45 +122,46 @@ class HomeFragment : Fragment() {
                 conversationViewModel.getConversation(
                     sessionManager.getUserInfo()!!.id, it.receiver.id
                 ).observe(viewLifecycleOwner) { conversation ->
-                        if (conversation != null) {
-                            findNavController().navigate(
-                                HomeFragmentDirections.actionHomeFragmentToMessageFragment(
-                                    conversation
+                    if (conversation != null) {
+                        findNavController().navigate(
+                            HomeFragmentDirections.actionHomeFragmentToMessageFragment(
+                                conversation
+                            )
+                        )
+                    } else {
+                        lifecycleScope.launch {
+                            val isSuccess = conversationViewModel.insertConversation(
+                                Conversation(
+                                    0,
+                                    userId1 = sessionManager.getUserInfo()!!.id,
+                                    userId2 = it.receiver.id
                                 )
                             )
-                        } else {
-                            lifecycleScope.launch {
-                                val isSuccess = conversationViewModel.insertConversation(
-                                    Conversation(
-                                        0,
-                                        userId1 = sessionManager.getUserInfo()!!.id,
-                                        userId2 = it.receiver.id
-                                    )
-                                )
-                                if (isSuccess) {
-                                    conversationViewModel.getConversation(
-                                        sessionManager.getUserInfo()!!.id, it.receiver.id
-                                    ).observe(viewLifecycleOwner) { conversation ->
-                                        if (conversation != null) {
-                                            findNavController().navigate(
-                                                HomeFragmentDirections.actionHomeFragmentToMessageFragment(
-                                                    conversation
-                                                )
+                            if (isSuccess) {
+                                conversationViewModel.getConversation(
+                                    sessionManager.getUserInfo()!!.id, it.receiver.id
+                                ).observe(viewLifecycleOwner) { conversation ->
+                                    if (conversation != null) {
+                                        findNavController().navigate(
+                                            HomeFragmentDirections.actionHomeFragmentToMessageFragment(
+                                                conversation
                                             )
-                                        }
+                                        )
                                     }
                                 }
                             }
                         }
                     }
+                }
             }, onLongItemClick = { conversationWithUserAndLatestMessage ->
                 val builder = AlertDialog.Builder(context)
                 builder.setTitle("Delete")
                 builder.setMessage("Are you sure to delete this conversation?")
                 builder.setPositiveButton("OK") { dialog, _ ->
                     lifecycleScope.launch {
-                        val isSuccess = conversationViewModel.deleteConversation(
-                            conversationWithUserAndLatestMessage.conversation
+                        val isSuccess = messageViewModel.hideMessagesInConversation(
+                            conversationWithUserAndLatestMessage.conversation,
+                            sessionManager.getUserInfo()?.id ?: 0
                         )
                         if (isSuccess) {
                             sessionManager.getUserInfo()?.let {

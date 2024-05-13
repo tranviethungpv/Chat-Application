@@ -1,7 +1,6 @@
 package com.example.chatapp1
 
 import android.os.Parcelable
-import androidx.room.Embedded
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

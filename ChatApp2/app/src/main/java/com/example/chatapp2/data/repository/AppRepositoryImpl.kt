@@ -31,6 +31,10 @@ class AppRepositoryImpl @Inject constructor(
         return chatServiceConnection.getChatService()?.getConversation(userId1, userId2)
     }
 
+    override fun hideMessagesInConversation(conversation: Conversation, userId: Int): Int {
+        return chatServiceConnection.getChatService()?.hideMessagesInConversation(conversation, userId) ?: -1
+    }
+
     override fun insertMessage(message: Message): Long {
         return chatServiceConnection.getChatService()?.insertMessage(message) ?: -1
     }
@@ -67,9 +71,9 @@ class AppRepositoryImpl @Inject constructor(
         return chatServiceConnection.getChatService()?.getUserById(id) ?: User()
     }
 
-    override fun getMessagesWithUsersAndConversation(conversationId: Int): List<MessageWithUsersAndConversation> {
+    override fun getMessagesWithUsersAndConversation(conversationId: Int, userId: Int): List<MessageWithUsersAndConversation> {
         return chatServiceConnection.getChatService()
-            ?.getMessagesWithUsersAndConversation(conversationId) ?: emptyList()
+            ?.getMessagesWithUsersAndConversation(conversationId, userId) ?: emptyList()
     }
 
     override fun getLatestMessagesWithReceiverAndConversationInfo(userId1: Int): List<MessageWithReceiverAndConversationInfo> {

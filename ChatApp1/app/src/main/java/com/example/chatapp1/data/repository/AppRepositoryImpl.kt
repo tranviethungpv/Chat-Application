@@ -39,6 +39,21 @@ class AppRepositoryImpl @Inject constructor(
         return conversationDao.getConversation(userId1, userId2)
     }
 
+    override fun hideMessagesInConversation(conversation: Conversation, userId: Int): Int {
+        val messages = messageDao.getMessagesByConversationId(conversation.id)
+        var updatedCount = 0
+        for (message in messages) {
+            if (userId == conversation.userId1) {
+                message.isDeletedByUser1 = true
+                //message.isDeletedByUser2 = true
+            } else if (userId == conversation.userId2) {
+                message.isDeletedByUser2 = true
+            }
+            updatedCount += messageDao.update(message)
+        }
+        return updatedCount
+    }
+
     override fun insertMessage(message: Message): Long {
         return messageDao.insert(message)
     }
@@ -76,9 +91,9 @@ class AppRepositoryImpl @Inject constructor(
     }
 
     override fun getMessagesWithUsersAndConversation(
-        conversationId: Int
+        conversationId: Int, userId: Int
     ): List<MessageWithUsersAndConversation> {
-        return appDao.getMessagesWithUsersAndConversation(conversationId)
+        return appDao.getMessagesWithUsersAndConversation(conversationId, userId)
     }
 
     override fun getLatestMessagesWithReceiverAndConversationInfo(userId1: Int): List<MessageWithReceiverAndConversationInfo> {
